@@ -1,38 +1,59 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# InterviewPrep Hub
 
-## Getting Started
+A full-stack interview preparation platform built with **Next.js 15**, **TypeScript**, **Shadcn UI**, **MongoDB**, and **NextAuth.js**. Users can browse coding questions, filter by category, view details, and add new questions (protected route).
 
-First, run the development server:
+## Features
+
+- **Landing Page:** Navbar, Hero, Highlights, Footer  
+- **Questions Page:** List of questions with dynamic category filter  
+- **Question Details:** View full details of a selected question  
+- **Add Question (Protected):** Add new questions after login  
+- **Authentication:** Google login with NextAuth.js  
+- **Dynamic Categories:** New categories automatically added when adding questions  
+- **Polished UI:** Shadcn components, responsive, light/dark theme toggle  
+
+## Tech Stack
+
+- Next.js 15 (App Router)  
+- TypeScript  
+- Shadcn UI  
+- Tailwind CSS  
+- MongoDB Atlas  
+- NextAuth.js (Google Authentication)  
+
+## Installation
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+git clone https://github.com/md-zeon/InterviewPrep-Hub.git
+cd InterviewPrep-Hub
+npm install
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Add .env.local:
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+```env
+NEXT_PUBLIC_APP_URL=http://localhost:3000
+MONGODB_URI=your_mongo_connection_string
+GOOGLE_CLIENT_ID=your_google_client_id
+GOOGLE_CLIENT_SECRET=your_google_client_secret
+NEXTAUTH_SECRET=your_nextauth_secret
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+Run locally:
+```bash
+cd InterviewPrep-Hub
+npm run dev
+```
 
-## Learn More
+## Routes Summary
 
-To learn more about Next.js, take a look at the following resources:
+| Route                     | Access    | Description                         |
+| ------------------------- | --------- | ----------------------------------- |
+| `/`                       | Public    | Landing Page                        |
+| `/login`                  | Public    | Google Login                        |
+| `/questions`              | Public    | Questions List with category filter |
+| `/questions/[id]`         | Public    | Question Details                    |
+| `/dashboard/add-question` | Protected | Add new question                    |
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
-# InterviewPrep-Hub
-# InterviewPrep-Hub
+Deployed on Vercel: 
