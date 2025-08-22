@@ -20,7 +20,7 @@ export default function Navbar() {
 			<Container>
 				<div className="flex h-16 items-center justify-between">
 					{/* Logo */}
-					<Link href="/" className="text-xl font-bold bg-gradient-to-r from-primary via-purple-600 to-blue-600 bg-clip-text text-transparent">
+					<Link href="/" className="text-xl font-bold">
 						InterviewPrep Hub
 					</Link>
 
