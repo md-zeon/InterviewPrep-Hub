@@ -1,25 +1,39 @@
 "use client";
 
-import { useState, useMemo } from "react";
-import { mockQuestions, categories, difficulties } from "@/lib/data";
+import { useState, useMemo, useEffect } from "react";
+import { useSearchParams, useRouter } from "next/navigation";
+import { mockQuestions, categories, difficulties, Question } from "@/lib/data";
 import QuestionsFilters from "@/components/QuestionsFilters";
 import QuestionCard from "@/components/QuestionCard";
 import { Button } from "@/components/ui/button";
 import { Filter } from "lucide-react";
 
 export default function QuestionsPage() {
-    const [searchTerm, setSearchTerm] = useState("");
-    const [categoryFilter, setCategoryFilter] = useState<string>("all");
-    const [difficultyFilter, setDifficultyFilter] = useState<string>("all");
+    const searchParams = useSearchParams();
+    const router = useRouter();
+
+    // Initialize filters from URL query or defaults
+    const [searchTerm, setSearchTerm] = useState(searchParams.get("search") || "");
+    const [categoryFilter, setCategoryFilter] = useState<string>(searchParams.get("category") || "all");
+    const [difficultyFilter, setDifficultyFilter] = useState<string>(searchParams.get("difficulty") || "all");
+
+    // Update URL query whenever filters change
+    useEffect(() => {
+        const params = new URLSearchParams();
+        if (searchTerm) params.set("search", searchTerm);
+        if (categoryFilter !== "all") params.set("category", categoryFilter);
+        if (difficultyFilter !== "all") params.set("difficulty", difficultyFilter);
+
+        const queryString = params.toString();
+        router.replace(`/questions${queryString ? "?" + queryString : ""}`);
+    }, [searchTerm, categoryFilter, difficultyFilter, router]);
 
     const filteredQuestions = useMemo(() => {
         return mockQuestions.filter((question) => {
             const matchesSearch =
                 question.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
                 question.description.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                question.tags.some((tag) =>
-                    tag.toLowerCase().includes(searchTerm.toLowerCase())
-                );
+                question.tags.some((tag) => tag.toLowerCase().includes(searchTerm.toLowerCase()));
 
             const matchesCategory =
                 categoryFilter === "all" || question.category === categoryFilter;
@@ -29,6 +43,13 @@ export default function QuestionsPage() {
             return matchesSearch && matchesCategory && matchesDifficulty;
         });
     }, [searchTerm, categoryFilter, difficultyFilter]);
+
+    // Handler for QuestionsFilters component
+    const handleFilterChange = (filters: { search?: string; category?: string; difficulty?: string }) => {
+        if (filters.search !== undefined) setSearchTerm(filters.search);
+        if (filters.category !== undefined) setCategoryFilter(filters.category);
+        if (filters.difficulty !== undefined) setDifficultyFilter(filters.difficulty);
+    };
 
     return (
         <div className="min-h-screen bg-background">
@@ -45,13 +66,11 @@ export default function QuestionsPage() {
                 {/* Filters */}
                 <QuestionsFilters
                     searchTerm={searchTerm}
-                    setSearchTerm={setSearchTerm}
                     categoryFilter={categoryFilter}
-                    setCategoryFilter={setCategoryFilter}
                     difficultyFilter={difficultyFilter}
-                    setDifficultyFilter={setDifficultyFilter}
                     categories={categories}
                     difficulties={difficulties}
+                    onChange={handleFilterChange}
                 />
 
                 {/* Filter info */}
@@ -78,7 +97,7 @@ export default function QuestionsPage() {
 
                 {/* Questions Grid */}
                 <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-                    {filteredQuestions.map((q) => (
+                    {filteredQuestions.map((q: Question) => (
                         <QuestionCard
                             key={q.id}
                             question={q}

@@ -4,25 +4,23 @@ import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Search } from "lucide-react";
 
-export default function QuestionsFilters({
-    searchTerm,
-    setSearchTerm,
-    categoryFilter,
-    setCategoryFilter,
-    difficultyFilter,
-    setDifficultyFilter,
-    categories,
-    difficulties,
-}: {
+interface QuestionsFiltersProps {
     searchTerm: string;
-    setSearchTerm: (value: string) => void;
     categoryFilter: string;
-    setCategoryFilter: (value: string) => void;
     difficultyFilter: string;
-    setDifficultyFilter: (value: string) => void;
     categories: { value: string; label: string; color: string }[];
     difficulties: { value: string; label: string; color: string }[];
-}) {
+    onChange: (filters: { search?: string; category?: string; difficulty?: string }) => void;
+}
+
+export default function QuestionsFilters({
+    searchTerm,
+    categoryFilter,
+    difficultyFilter,
+    categories,
+    difficulties,
+    onChange,
+}: QuestionsFiltersProps) {
     return (
         <div className="mb-8 space-y-4">
             <div className="flex flex-col md:flex-row gap-4">
@@ -31,12 +29,12 @@ export default function QuestionsFilters({
                     <Input
                         placeholder="Search questions, tags, or technologies..."
                         value={searchTerm}
-                        onChange={(e) => setSearchTerm(e.target.value)}
+                        onChange={(e) => onChange({ search: e.target.value })}
                         className="pl-10"
                     />
                 </div>
 
-                <Select value={categoryFilter} onValueChange={setCategoryFilter}>
+                <Select value={categoryFilter} onValueChange={(val) => onChange({ category: val })}>
                     <SelectTrigger className="w-full md:w-48">
                         <SelectValue placeholder="Category" />
                     </SelectTrigger>
@@ -50,7 +48,7 @@ export default function QuestionsFilters({
                     </SelectContent>
                 </Select>
 
-                <Select value={difficultyFilter} onValueChange={setDifficultyFilter}>
+                <Select value={difficultyFilter} onValueChange={(val) => onChange({ difficulty: val })}>
                     <SelectTrigger className="w-full md:w-48">
                         <SelectValue placeholder="Difficulty" />
                     </SelectTrigger>
