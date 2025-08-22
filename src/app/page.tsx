@@ -1,4 +1,5 @@
 import Categories from "@/components/Categories"
+import CTASection from "@/components/CTASection"
 import Features from "@/components/Features"
 import Hero from "@/components/Hero"
 
@@ -8,6 +9,7 @@ const HomePage = () => {
       <Hero />
       <Features />
       <Categories />
+      <CTASection />
     </main>
   )
 }
