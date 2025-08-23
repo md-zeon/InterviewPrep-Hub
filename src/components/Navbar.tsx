@@ -32,6 +32,11 @@ export default async function Navbar() {
               <NavigationMenuList>
                 <NavigationMenuItem>
                   <NavigationMenuLink asChild>
+                    <Link href="/">Home</Link>
+                  </NavigationMenuLink>
+                </NavigationMenuItem>
+                <NavigationMenuItem>
+                  <NavigationMenuLink asChild>
                     <Link href="/questions">Questions</Link>
                   </NavigationMenuLink>
                 </NavigationMenuItem>
@@ -45,27 +50,27 @@ export default async function Navbar() {
                     <Link href="/about">About</Link>
                   </NavigationMenuLink>
                 </NavigationMenuItem>
+                {
+                  session ? (
+                    <NavigationMenuItem>
+                      <NavigationMenuLink asChild>
+                        <Link href="/questions/add">Add Question</Link>
+                      </NavigationMenuLink>
+                    </NavigationMenuItem>
+                  ) : (
+                    <>
+                      <Button variant="outline" asChild>
+                        <Link href="/login">Login</Link>
+                      </Button>
+                      <Button asChild>
+                        <Link href="/register">Sign Up</Link>
+                      </Button>
+                    </>
+                  )}
               </NavigationMenuList>
             </NavigationMenu>
 
-            {/* Auth */}
-            {session ? (
-              <>
-                <Button variant="ghost" asChild>
-                  <Link href="/questions/add">Add Question</Link>
-                </Button>
-                <LogoutButton />
-              </>
-            ) : (
-              <>
-                <Button variant="outline" asChild>
-                  <Link href="/login">Login</Link>
-                </Button>
-                <Button asChild>
-                  <Link href="/register">Sign Up</Link>
-                </Button>
-              </>
-            )}
+            {session && <LogoutButton />}
 
             {/* Theme Toggle */}
             <ModeToggle />
@@ -82,24 +87,27 @@ export default async function Navbar() {
               </SheetTrigger>
               <SheetContent side="right" className="w-64">
                 <div className="flex flex-col gap-4 p-8">
+                  <Link href="/" className="text-lg font-medium">
+                    Home
+                  </Link>
                   <Link href="/questions" className="text-lg font-medium">
                     Questions
                   </Link>
                   <Link href="/categories" className="text-lg font-medium">
                     Categories
                   </Link>
+                  {session && (
+                    <Link href="/questions/add" className="text-lg font-medium">
+                      Add Question
+                    </Link>
+                  )}
                   <Link href="/about" className="text-lg font-medium">
                     About
                   </Link>
                   <Separator />
                   <div className="pt-4 mt-4 flex flex-col gap-2">
                     {session ? (
-                      <>
-                        <Button variant="ghost" asChild>
-                          <Link href="/questions/add">Add Question</Link>
-                        </Button>
-                        <LogoutButton />
-                      </>
+                      <LogoutButton />
                     ) : (
                       <>
                         <Button variant="outline" asChild>

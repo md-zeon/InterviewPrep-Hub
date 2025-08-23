@@ -36,7 +36,7 @@ export default function Footer() {
                         <h4 className="font-semibold">Connect</h4>
                         <div className="flex gap-2 mt-1">
                             <Button variant="ghost" size="icon" asChild>
-                                <Link href="mailto:support@interviewprephub.com"><Mail className="h-5 w-5" /></Link>
+                                <Link href="mailto:zeon.cse@gmail.com"><Mail className="h-5 w-5" /></Link>
                             </Button>
                             <Button variant="ghost" size="icon" asChild>
                                 <Link href="https://github.com/md-zeon"><Github className="h-5 w-5" /></Link>

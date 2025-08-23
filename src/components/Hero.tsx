@@ -29,7 +29,7 @@ export default function Hero() {
                         </Link>
                     </Button>
                     <Button asChild variant="outline" size="lg">
-                        <Link href="/auth/signin">
+                        <Link href="/login">
                             Contribute Questions
                         </Link>
                     </Button>
