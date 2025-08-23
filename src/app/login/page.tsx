@@ -8,7 +8,7 @@ export default function LoginPage() {
       <div className="w-full max-w-sm rounded-2xl shadow p-6 space-y-4">
         <h1 className="text-2xl font-bold text-center">Sign in</h1>
         <button
-          onClick={() => signIn("google", { callbackUrl: "/dashboard" })}
+          onClick={() => signIn("google", { callbackUrl: "/questions" })}
           className="w-full rounded-xl px-4 py-2 bg-black text-white"
         >
           Continue with Google
