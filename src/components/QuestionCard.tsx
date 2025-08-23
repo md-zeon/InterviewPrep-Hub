@@ -5,7 +5,7 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
-import { Question } from "@/lib/data";
+import { Question } from "@/lib/types";
 
 export default function QuestionCard({ question, categoryInfo, difficultyInfo }: {
     question: Question;

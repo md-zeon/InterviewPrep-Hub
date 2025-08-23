@@ -5,7 +5,7 @@ import {
   NavigationMenuItem,
   NavigationMenuLink,
 } from "@/components/ui/navigation-menu";
-import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
+import { Sheet, SheetContent, SheetTitle, SheetTrigger } from "@/components/ui/sheet";
 import { Button } from "@/components/ui/button";
 import { Menu } from "lucide-react";
 import { ModeToggle } from "./ModeToggle";
@@ -87,6 +87,7 @@ export default async function Navbar() {
               </SheetTrigger>
               <SheetContent side="right" className="w-64">
                 <div className="flex flex-col gap-4 p-8">
+                <SheetTitle>InterviewPrep Hub</SheetTitle>
                   <Link href="/" className="text-lg font-medium">
                     Home
                   </Link>
