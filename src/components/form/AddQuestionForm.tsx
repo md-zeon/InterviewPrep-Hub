@@ -6,7 +6,8 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
 import { Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from "@/components/ui/select";
-import { categories, difficulties, Question } from "@/lib/data";
+import { categories, difficulties } from "@/lib/data";
+import { Question } from "@/lib/types";
 
 export default function AddQuestionForm() {
     const [title, setTitle] = useState("");

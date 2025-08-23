@@ -35,7 +35,7 @@ export default function QuestionCard({ question, categoryInfo, difficultyInfo }:
                 <div className="flex items-center justify-between">
                     <span className="text-sm text-muted-foreground">Added {new Date(question.createdAt).toLocaleDateString()}</span>
                     <Button asChild variant="ghost" size="sm">
-                        <Link href={`/questions/${question.id}`}>
+                        <Link href={`/questions/${question._id}`}>
                             View Details <ArrowRight className="ml-2 h-4 w-4" />
                         </Link>
                     </Button>
