@@ -52,7 +52,7 @@ export default async function Navbar() {
             {session ? (
               <>
                 <Button variant="ghost" asChild>
-                  <Link href="/dashboard">Dashboard</Link>
+                  <Link href="/questions/add">Add Question</Link>
                 </Button>
                 <LogoutButton />
               </>
@@ -96,7 +96,7 @@ export default async function Navbar() {
                     {session ? (
                       <>
                         <Button variant="ghost" asChild>
-                          <Link href="/dashboard">Dashboard</Link>
+                          <Link href="/questions/add">Add Question</Link>
                         </Button>
                         <LogoutButton />
                       </>
