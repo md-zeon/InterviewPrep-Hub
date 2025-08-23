@@ -119,7 +119,7 @@ export default function QuestionsPage() {
                         {filteredQuestions.map((q) => (
                             <QuestionCard
                                 key={q._id}
-                                question={{ ...q, id: q._id }}
+                                question={{ ...q, _id: q._id }}
                                 categoryInfo={categories.find((c) => c.value === q.category)}
                                 difficultyInfo={difficulties.find((d) => d.value === q.difficulty)}
                             />
