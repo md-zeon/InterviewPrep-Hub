@@ -61,8 +61,7 @@ export default function AddQuestionForm() {
     };
 
     return (
-        <div className="max-w-3xl mx-auto mt-8 p-6 bg-background shadow-lg rounded-xl border border-gray-200 dark:border-gray-700">
-            <h2 className="text-2xl font-bold mb-6 text-center">Add a New Question</h2>
+        <div className="max-w-3xl mx-auto mt-8 p-6 bg-background shadow-lg rounded-xl">
             <form className="space-y-4" onSubmit={handleSubmit}>
                 <Input
                     placeholder="Question Title"

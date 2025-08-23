@@ -11,7 +11,7 @@ export default async function AddQuestionPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50 dark:bg-gray-900 py-10">
+    <div className="min-h-screen bg-background py-10">
       <h1 className="text-3xl font-bold text-center mb-8 text-gray-800 dark:text-gray-100">
         Add New Question
       </h1>

@@ -1,10 +1,11 @@
 "use client";
 
-import { useState, useMemo, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { useSearchParams, useRouter } from "next/navigation";
-import { mockQuestions, categories, difficulties, Question } from "@/lib/data";
+import { Question } from "@/lib/types";
 import QuestionsFilters from "@/components/QuestionsFilters";
 import QuestionCard from "@/components/QuestionCard";
+import { categories, difficulties } from "@/lib/data";
 import { Button } from "@/components/ui/button";
 import { Filter } from "lucide-react";
 
@@ -12,39 +13,53 @@ export default function QuestionsPage() {
     const searchParams = useSearchParams();
     const router = useRouter();
 
-    // Initialize filters from URL query or defaults
+    const [questions, setQuestions] = useState<Question[]>([]);
+    const [loading, setLoading] = useState(true);
+
+    // Filters
     const [searchTerm, setSearchTerm] = useState(searchParams.get("search") || "");
     const [categoryFilter, setCategoryFilter] = useState<string>(searchParams.get("category") || "all");
     const [difficultyFilter, setDifficultyFilter] = useState<string>(searchParams.get("difficulty") || "all");
 
-    // Update URL query whenever filters change
+    useEffect(() => {
+        const fetchQuestions = async () => {
+            setLoading(true);
+            try {
+                const res = await fetch("/api/questions");
+                const data: Question[] = await res.json();
+                setQuestions(data);
+            } catch (err) {
+                console.error(err);
+            } finally {
+                setLoading(false);
+            }
+        };
+
+        fetchQuestions();
+    }, []);
+
+    // Update URL on filter change
     useEffect(() => {
         const params = new URLSearchParams();
         if (searchTerm) params.set("search", searchTerm);
         if (categoryFilter !== "all") params.set("category", categoryFilter);
         if (difficultyFilter !== "all") params.set("difficulty", difficultyFilter);
 
-        const queryString = params.toString();
-        router.replace(`/questions${queryString ? "?" + queryString : ""}`);
+        router.replace(`/questions${params.toString() ? "?" + params.toString() : ""}`);
     }, [searchTerm, categoryFilter, difficultyFilter, router]);
 
-    const filteredQuestions = useMemo(() => {
-        return mockQuestions.filter((question) => {
-            const matchesSearch =
-                question.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                question.description.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                question.tags.some((tag) => tag.toLowerCase().includes(searchTerm.toLowerCase()));
+    const filteredQuestions = questions.filter((q) => {
+        const matchesSearch =
+            q.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
+            q.description.toLowerCase().includes(searchTerm.toLowerCase()) ||
+            q.tags.some((tag: string) => tag.toLowerCase().includes(searchTerm.toLowerCase()));
 
-            const matchesCategory =
-                categoryFilter === "all" || question.category === categoryFilter;
-            const matchesDifficulty =
-                difficultyFilter === "all" || question.difficulty === difficultyFilter;
+        const matchesCategory = categoryFilter === "all" || q.category === categoryFilter;
+        const matchesDifficulty = difficultyFilter === "all" || q.difficulty === difficultyFilter;
 
-            return matchesSearch && matchesCategory && matchesDifficulty;
-        });
-    }, [searchTerm, categoryFilter, difficultyFilter]);
+        return matchesSearch && matchesCategory && matchesDifficulty;
+    });
 
-    // Handler for QuestionsFilters component
     const handleFilterChange = (filters: { search?: string; category?: string; difficulty?: string }) => {
         if (filters.search !== undefined) setSearchTerm(filters.search);
         if (filters.category !== undefined) setCategoryFilter(filters.category);
@@ -78,7 +93,7 @@ export default function QuestionsPage() {
                     <div className="flex items-center gap-2 mb-6">
                         <Filter className="h-4 w-4 text-muted-foreground" />
                         <span className="text-sm text-muted-foreground">
-                            Showing {filteredQuestions.length} of {mockQuestions.length} questions
+                            Showing {filteredQuestions.length} of {questions.length} questions
                         </span>
                         <Button
                             variant="ghost"
@@ -95,34 +110,20 @@ export default function QuestionsPage() {
                     </div>
                 )}
 
-                {/* Questions Grid */}
-                <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-                    {filteredQuestions.map((q: Question) => (
-                        <QuestionCard
-                            key={q.id}
-                            question={q}
-                            categoryInfo={categories.find((c) => c.value === q.category)}
-                            difficultyInfo={difficulties.find((d) => d.value === q.difficulty)}
-                        />
-                    ))}
-                </div>
-
-                {filteredQuestions.length === 0 && (
-                    <div className="text-center py-12">
-                        <div className="text-6xl mb-4">🔍</div>
-                        <h3 className="text-xl font-semibold mb-2">No questions found</h3>
-                        <p className="text-muted-foreground mb-6">
-                            Try adjusting your search criteria or browse all questions
-                        </p>
-                        <Button
-                            onClick={() => {
-                                setSearchTerm("");
-                                setCategoryFilter("all");
-                                setDifficultyFilter("all");
-                            }}
-                        >
-                            View All Questions
-                        </Button>
+                {loading ? (
+                    <p>Loading questions...</p>
+                ) : filteredQuestions.length === 0 ? (
+                    <p>No questions found.</p>
+                ) : (
+                    <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                        {filteredQuestions.map((q) => (
+                            <QuestionCard
+                                key={q._id}
+                                question={{ ...q, id: q._id }}
+                                categoryInfo={categories.find((c) => c.value === q.category)}
+                                difficultyInfo={difficulties.find((d) => d.value === q.difficulty)}
+                            />
+                        ))}
                     </div>
                 )}
             </main>
