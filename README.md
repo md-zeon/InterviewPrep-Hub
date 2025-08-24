@@ -53,7 +53,7 @@ npm run dev
 | `/login`                  | Public    | Google Login                        |
 | `/questions`              | Public    | Questions List with category filter |
 | `/questions/[id]`         | Public    | Question Details                    |
-| `/dashboard/add-question` | Protected | Add new question                    |
+| `/add-question` | Protected | Add new question                    |
 
 
 Deployed on Vercel: 
