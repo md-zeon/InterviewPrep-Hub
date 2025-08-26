@@ -1,3 +1,4 @@
+"use client";
 import Link from "next/link";
 import {
   NavigationMenu,
@@ -11,11 +12,11 @@ import { Menu } from "lucide-react";
 import { ModeToggle } from "./ModeToggle";
 import { Separator } from "./ui/separator";
 import Container from "./Container";
-import { auth } from "@/auth";
 import LogoutButton from "./LogoutButton";
+import { useSession } from "next-auth/react";
 
-export default async function Navbar() {
-  const session = await auth();
+export default function Navbar() {
+  const { data: session, status } = useSession();
 
   return (
     <header className="sticky top-0 z-50 w-full border-b bg-background/80 backdrop-blur-md">
@@ -51,7 +52,7 @@ export default async function Navbar() {
                   </NavigationMenuLink>
                 </NavigationMenuItem>
                 {
-                  session ? (
+                  status === "authenticated" ? (
                     <NavigationMenuItem>
                       <NavigationMenuLink asChild>
                         <Link href="/questions/add">Add Question</Link>
@@ -70,7 +71,7 @@ export default async function Navbar() {
               </NavigationMenuList>
             </NavigationMenu>
 
-            {session && <LogoutButton />}
+            {status === "authenticated" && <LogoutButton />}
 
             {/* Theme Toggle */}
             <ModeToggle />
@@ -97,7 +98,7 @@ export default async function Navbar() {
                   <Link href="/categories" className="text-lg font-medium">
                     Categories
                   </Link>
-                  {session && (
+                  {status === "authenticated" && (
                     <Link href="/questions/add" className="text-lg font-medium">
                       Add Question
                     </Link>
@@ -107,7 +108,7 @@ export default async function Navbar() {
                   </Link>
                   <Separator />
                   <div className="pt-4 mt-4 flex flex-col gap-2">
-                    {session ? (
+                    {status === "authenticated" ? (
                       <LogoutButton />
                     ) : (
                       <>

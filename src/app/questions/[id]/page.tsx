@@ -13,9 +13,9 @@ interface QuestionPageProps {
 }
 
 export default async function QuestionPage({ params }: QuestionPageProps) {
-    const { id } = await params;
+    const { id } = params;
     // Fetch all questions
-    const res = await fetch(`${process.env.NEXT_AUTH_URL || 'http://localhost:3000'}/api/questions`);
+    const res = await fetch(`${process.env.NEXTAUTH_URL}/api/questions`);
     const questions: Question[] = await res.json();
 
     // Find the current question
