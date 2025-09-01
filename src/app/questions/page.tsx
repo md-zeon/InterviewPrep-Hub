@@ -1,5 +1,6 @@
 import { Suspense } from "react";
 import QuestionsPageClient from "./QuestionsPageClient";
+import { Spinner } from "@/components/ui/shadcn-io/spinner";
 
 export default function QuestionsPage() {
   return (
@@ -10,7 +11,7 @@ export default function QuestionsPage() {
           Browse our comprehensive collection of technical interview questions
         </p>
 
-        <Suspense fallback={<p>Loading questions...</p>}>
+        <Suspense fallback={<Spinner />}>
           <QuestionsPageClient />
         </Suspense>
       </main>

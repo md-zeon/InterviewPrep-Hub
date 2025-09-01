@@ -1,9 +1,14 @@
-import NextAuth from "next-auth";
-import authConfig from "@/auth.config";
+import { NextRequest, NextResponse } from "next/server";
 
-// Protect configured routes using NextAuth v5 middleware
-export default NextAuth(authConfig).auth;
+export function middleware(request: NextRequest) {
+	// Example: check auth token from cookies
+	//   const token = request.cookies.get("token")?.value;
 
-export const config = {
-	matcher: ["/dashboard/:path*"],
-};
+	// If no token, redirect to login
+	//   if (!token) {
+	//     return NextResponse.redirect(new URL("/login", request.url));
+	//   }
+
+	// Otherwise allow request
+	return NextResponse.next();
+}

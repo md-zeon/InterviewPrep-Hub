@@ -8,6 +8,7 @@ import QuestionCard from "@/components/QuestionCard";
 import { categories, difficulties } from "@/lib/data";
 import { Button } from "@/components/ui/button";
 import { Filter } from "lucide-react";
+import { Spinner } from "@/components/ui/shadcn-io/spinner";
 
 export default function QuestionsPageClient() {
     const searchParams = useSearchParams();
@@ -100,7 +101,9 @@ export default function QuestionsPageClient() {
             )}
 
             {loading ? (
-                <p>Loading questions...</p>
+                <div className="flex justify-center items-center">
+                    <Spinner />
+                </div>
             ) : filteredQuestions.length === 0 ? (
                 <p>No questions found.</p>
             ) : (
